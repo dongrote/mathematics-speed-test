@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+# reactjs build directory
+ui/build
+
+# server public directory
+server/public
