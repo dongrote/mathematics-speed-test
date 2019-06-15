@@ -90,7 +90,7 @@ class App extends Component {
               permittedTime={10}
               onTestComplete={this.onTestComplete}
             />}
-        {this.state.step === 'results' && <TestResults results={this.state.answers} duration={moment(this.state.finishTime).subtract(this.state.startTime)} />}
+        {this.state.step === 'results' && <TestResults results={this.state.answers} duration={moment.duration(moment(this.state.finishTime).diff(this.state.startTime))} />}
       </Container>
     );
   }
