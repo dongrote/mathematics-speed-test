@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
-import { Grid, Card, Form, Input } from 'semantic-ui-react';
+import { Grid, Card, Form } from 'semantic-ui-react';
+import NumberInput from './NumberInput';
 
 const generateQuestion = (numbers, operation) => {
   const q = {
@@ -14,7 +15,7 @@ const generateQuestion = (numbers, operation) => {
   return q;
 };
 
-const SpeedTest = ({testNumbers, testOperation, totalQuestionCount, currentQuestionNumber}) => {
+const SpeedTest = ({testNumbers, testOperation, totalQuestionCount, currentQuestionNumber, onSubmitAnswer}) => {
   const question = generateQuestion(testNumbers.filter(n => n.selected).map(n => n.value), testOperation);
   return (
     <Grid centered>
@@ -25,7 +26,7 @@ const SpeedTest = ({testNumbers, testOperation, totalQuestionCount, currentQuest
           <Card.Header>{question.operation} {question.right}</Card.Header>
           <Card.Header><hr /></Card.Header>
           <Form>
-            <Input size='massive' focus placeholder={question.correctAnswer}></Input>
+            <NumberInput size='massive' placeholder={question.correctAnswer} onSubmit={({value}) => onSubmitAnswer(question, value)}></NumberInput>
           </Form>
         </Card.Content>
       </Card>

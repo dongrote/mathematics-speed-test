@@ -3,6 +3,7 @@ import { Container } from 'semantic-ui-react';
 import AppHeader from './AppHeader';
 import SpeedTest from './SpeedTest';
 import SetupTest from './SetupTest';
+import TestResults from './TestResults';
 
 class App extends Component {
   state = {
@@ -41,7 +42,7 @@ class App extends Component {
     this.setState({
       step: 'test',
       started: true,
-      totalQuestionCount: 100,
+      totalQuestionCount: 10,
       currentQuestionNumber: 1,
       score: 0,
       answers: [],
@@ -60,30 +61,37 @@ class App extends Component {
     console.log('timer expired');
   }
 
-  onAnswerSubmit = answer => {
-    const updatedAnswers = this.state.answers.slice();
-    updatedAnswers.push(answer);
-    this.setState({answers: updatedAnswers});
+  onAnswerSubmit = (question, answer) => {
+    const updatedAnswers = this.state.answers.slice(),
+      nextQuestionNumber = this.state.currentQuestionNumber + 1,
+      step = nextQuestionNumber > this.state.totalQuestionCount ? 'results' : 'test';
+    updatedAnswers.push({question, answer});
+    this.setState({
+      step,
+      answers: updatedAnswers,
+      currentQuestionNumber: nextQuestionNumber,
+    });
   }
 
   render() {
     return (
       <Container textAlign='center'>
         <AppHeader step={this.state.step} takeTestDisabled={this.state.numbers.filter(n => n.selected).length < 2} onSetupTest={this.onSetupTest} onTakeTest={this.onStartTest} />
-        {this.state.started
-          ? <SpeedTest
+        {this.state.step === 'setup' && <SetupTest
+              onStartClick={this.onStartTest}
+              onNumberClick={this.onNumberToggle}
+              numbers={this.state.numbers}
+            />}
+        {this.state.step === 'test' && <SpeedTest
               testNumbers={this.state.numbers}
               testOperation={this.state.operation}
               onAnswerSubmit={this.onAnswerSubmit}
               totalQuestionCount={this.state.totalQuestionCount}
               currentQuestionNumber={this.state.currentQuestionNumber}
               onTimerExpire={this.onTimerExpire}
-            />
-          : <SetupTest
-              onStartClick={this.onStartTest}
-              onNumberClick={this.onNumberToggle}
-              numbers={this.state.numbers}
+              onSubmitAnswer={this.onAnswerSubmit}
             />}
+        {this.state.step === 'results' && <TestResults results={this.state.answers} />}
       </Container>
     );
   }
