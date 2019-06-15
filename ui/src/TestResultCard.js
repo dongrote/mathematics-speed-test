@@ -9,11 +9,11 @@ const TestResultCard = ({children}) => {
       <Card.Content>
         <Card.Description>
           <Icon color={correct ? 'green' : 'red'} name={correct ? 'check circle' : 'close'} />
-          {question.left}{question.operation}{question.right} = {answer}
+          {question.left}{question.operation}{question.right} = {answer === null ? '--' : answer}
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
-        {correct ? 'Correct!' : `Incorrect; expected ${question.correctAnswer}.`}
+        {correct ? 'Correct!' : `${answer === null ? 'Not answered' : 'Incorrect'}; expected ${question.correctAnswer}.`}
       </Card.Content>
     </Card>
   );
