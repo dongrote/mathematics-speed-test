@@ -61,6 +61,9 @@ class SpeedTest extends Component {
           <Grid.Row>
             <Header as='h1'>Time's Up!</Header>
           </Grid.Row>
+          <Grid.Row>
+            The correct answer is {_.last(this.state.answers).question.correctAnswer}
+          </Grid.Row>
         </Grid>
       );
     }
@@ -80,7 +83,7 @@ class SpeedTest extends Component {
             <Header as='h1'>Incorrect!</Header>
           </Grid.Row>
           <Grid.Row>
-            The correct answer is {question.correctAnswer}
+            The correct answer is {_.last(this.state.answers).question.correctAnswer}
           </Grid.Row>
         </Grid>
       );

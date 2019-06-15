@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'semantic-ui-react';
+import moment from 'moment';
 import AppHeader from './AppHeader';
 import SpeedTest from './SpeedTest';
 import SetupTest from './SetupTest';
@@ -29,6 +30,8 @@ class App extends Component {
     score: null,
     totalQuestionCount: null,
     currentQuestionNumber: null,
+    startTime: null,
+    finishTime: null,
   };
 
   onSetupTest = () => {
@@ -46,6 +49,7 @@ class App extends Component {
       currentQuestionNumber: 1,
       score: 0,
       answers: [],
+      startTime: Date.now(),
     });
   }
 
@@ -60,7 +64,11 @@ class App extends Component {
   onSelectAllNumbers = () => this.setState({numbers: this.state.numbers.map(number => ({value: number.value, selected: true}))})
 
   onTestComplete = results => {
-    this.setState({step: 'results', answers: results});
+    this.setState({
+      step: 'results',
+      answers: results,
+      finishTime: Date.now(),
+    });
   }
 
   render() {
@@ -82,7 +90,7 @@ class App extends Component {
               permittedTime={10}
               onTestComplete={this.onTestComplete}
             />}
-        {this.state.step === 'results' && <TestResults results={this.state.answers} />}
+        {this.state.step === 'results' && <TestResults results={this.state.answers} duration={moment(this.state.finishTime).subtract(this.state.startTime)} />}
       </Container>
     );
   }
