@@ -57,6 +57,8 @@ class App extends Component {
     this.setState({numbers: updatedNumbers});
   }
 
+  onSelectAllNumbers = () => this.setState({numbers: this.state.numbers.map(number => ({value: number.value, selected: true}))})
+
   onTestComplete = results => {
     this.setState({step: 'results', answers: results});
   }
@@ -67,6 +69,7 @@ class App extends Component {
         <AppHeader step={this.state.step} takeTestDisabled={this.state.numbers.filter(n => n.selected).length < 2} onSetupTest={this.onSetupTest} onTakeTest={this.onStartTest} />
         {this.state.step === 'setup' && <SetupTest
               onStartClick={this.onStartTest}
+              onSelectAllClick={this.onSelectAllNumbers}
               onNumberClick={this.onNumberToggle}
               numbers={this.state.numbers}
             />}
