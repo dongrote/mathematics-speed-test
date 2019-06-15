@@ -15,8 +15,8 @@ const onKeyDown = onSubmit => event => {
   }
 };
 
-const NumberInput = ({size, placeholder, onSubmit}) => (
-  <Input type='text' size={size} placeholder={placeholder} onKeyDown={onKeyDown(onSubmit)}></Input>
+const NumberInput = ({size, onSubmit}) => (
+  <Input type='text' size={size} placeholder='Answer' onKeyDown={onKeyDown(onSubmit)}></Input>
 );
 
 export default NumberInput;
