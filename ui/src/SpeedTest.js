@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Grid, Card, Form, Progress } from 'semantic-ui-react';
-import NumberInput from './NumberInput';
+import { Grid } from 'semantic-ui-react';
+import QuestionCard from './QuestionCard';
 
 const generateQuestion = (numbers, operation) => {
   const q = {
@@ -20,39 +20,21 @@ class SpeedTest extends Component {
     super(props);
     this.state = {
       remainingTime: props.permittedTime,
-      question: generateQuestion(props.testNumbers.filter(n => n.selected).map(n => n.value), props.testOperation),
+      question: ,
     };
   }
 
-  tick = () => {
-    let remainingTime = this.state.remainingTime - 1;
-    if (remainingTime === -1) {
-      this.props.onTimerExpire(this.question, null);
-      remainingTime = this.props.permittedTime;
-    }
-    this.setState({remainingTime});
-  }
-
   render() {
-    const {totalQuestionCount, currentQuestionNumber, onSubmitAnswer, permittedTime} = this.props;
+    const {testNumbers, testOperation, totalQuestionCount, currentQuestionNumber, onSubmitAnswer, permittedTime} = this.props;
     const {remainingTime, question} = this.state;
-    setTimeout(this.tick, 1000);
     return (
       <Grid centered>
-        <Card>
-          <Card.Content>
-            <Card.Meta><Progress indicating progress='value' value={remainingTime} total={permittedTime} /></Card.Meta>
-            <Card.Header>{question.left}</Card.Header>
-            <Card.Header>{question.operation} {question.right}</Card.Header>
-            <Card.Header><hr /></Card.Header>
-            <Form>
-              <NumberInput size='massive' placeholder={question.correctAnswer} onSubmit={({value}) => onSubmitAnswer(question, value)}></NumberInput>
-            </Form>
-          </Card.Content>
-          <Card.Content extra>
-            {currentQuestionNumber} / {totalQuestionCount}
-          </Card.Content>
-        </Card>
+        <QuestionCard
+          question={generateQuestion(testNumbers.filter(n => n.selected).map(n => n.value), testOperation)}
+          onSubmitAnswer={onSubmitAnswer}
+          currentQuestionNumber={currentQuestionNumber}
+          totalQuestionCount={totalQuestionCount}
+        />
       </Grid>
     );
   }
