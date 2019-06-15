@@ -3,9 +3,7 @@ import React from 'react';
 import { Icon, Card } from 'semantic-ui-react';
 
 const TestResultCard = ({children}) => {
-  const {question, answer} = children,
-    correct = Number(question.correctAnswer) === Number(answer);
-
+  const {question, answer, correct} = children;
   return (
     <Card>
       <Card.Content>

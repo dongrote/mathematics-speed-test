@@ -42,7 +42,7 @@ class App extends Component {
     this.setState({
       step: 'test',
       started: true,
-      totalQuestionCount: 10,
+      totalQuestionCount: 20,
       currentQuestionNumber: 1,
       score: 0,
       answers: [],
@@ -64,8 +64,9 @@ class App extends Component {
   onAnswerSubmit = (question, answer) => {
     const updatedAnswers = this.state.answers.slice(),
       nextQuestionNumber = this.state.currentQuestionNumber + 1,
-      step = nextQuestionNumber > this.state.totalQuestionCount ? 'results' : 'test';
-    updatedAnswers.push({question, answer});
+      step = nextQuestionNumber > this.state.totalQuestionCount ? 'results' : 'test',
+      correct = Number(question.correctAnswer) === Number(answer);
+    updatedAnswers.push({question, answer, correct});
     this.setState({
       step,
       answers: updatedAnswers,
