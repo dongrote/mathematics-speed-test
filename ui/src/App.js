@@ -91,6 +91,7 @@ class App extends Component {
               currentQuestionNumber={this.state.currentQuestionNumber}
               onTimerExpire={this.onTimerExpire}
               onSubmitAnswer={this.onAnswerSubmit}
+              permittedTime={10}
             />}
         {this.state.step === 'results' && <TestResults results={this.state.answers} />}
       </Container>
