@@ -1,13 +1,13 @@
 import React from 'react';
+import { Header, Card, Form } from 'semantic-ui-react';
 import NumberInput from './NumberInput';
 import Timer from './Timer';
 
 const QuestionCard = ({question, onSubmitAnswer, currentQuestionNumber, totalQuestionCount}) => (
   <Card>
     <Card.Content>
-      <Card.Meta><Timer permittedTime={5} /></Card.Meta>
-      <Card.Header>{question.left}</Card.Header>
-      <Card.Header>{question.operation} {question.right}</Card.Header>
+      <Card.Meta><Timer permittedTime={10} onExpired={() => onSubmitAnswer(question, null)} /></Card.Meta>
+      <Card.Header><Header size='huge'>{question.left} {question.operation} {question.right}</Header></Card.Header>
       <Card.Header><hr /></Card.Header>
       <Form>
         <NumberInput size='massive' placeholder={question.correctAnswer} onSubmit={({value}) => onSubmitAnswer(question, value)}></NumberInput>

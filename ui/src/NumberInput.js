@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, { Component } from 'react';
 import { Input } from 'semantic-ui-react';
 
 const permittedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', '0','1','2','3','4','5','6','7','8','9'];
@@ -15,8 +15,17 @@ const onKeyDown = onSubmit => event => {
   }
 };
 
-const NumberInput = ({size, onSubmit}) => (
-  <Input type='text' size={size} placeholder='Answer' onKeyDown={onKeyDown(onSubmit)}></Input>
-);
+class NumberInput extends Component {
+  inputRef = React.createRef();
+
+  componentDidMount() {
+    this.inputRef.current.focus();
+  }
+
+  render() {
+    const {size, onSubmit} = this.props;
+    return <Input ref={this.inputRef} type='text' size={size} placeholder='Answer' onKeyDown={onKeyDown(onSubmit)}></Input>;
+  }
+}
 
 export default NumberInput;

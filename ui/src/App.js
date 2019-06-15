@@ -57,21 +57,8 @@ class App extends Component {
     this.setState({numbers: updatedNumbers});
   }
 
-  onTimerExpire = () => {
-    console.log('timer expired');
-  }
-
-  onAnswerSubmit = (question, answer) => {
-    const updatedAnswers = this.state.answers.slice(),
-      nextQuestionNumber = this.state.currentQuestionNumber + 1,
-      step = nextQuestionNumber > this.state.totalQuestionCount ? 'results' : 'test',
-      correct = Number(question.correctAnswer) === Number(answer);
-    updatedAnswers.push({question, answer, correct});
-    this.setState({
-      step,
-      answers: updatedAnswers,
-      currentQuestionNumber: nextQuestionNumber,
-    });
+  onTestComplete = results => {
+    this.setState({step: 'results', answers: results});
   }
 
   render() {
@@ -86,12 +73,11 @@ class App extends Component {
         {this.state.step === 'test' && <SpeedTest
               testNumbers={this.state.numbers}
               testOperation={this.state.operation}
-              onAnswerSubmit={this.onAnswerSubmit}
               totalQuestionCount={this.state.totalQuestionCount}
               currentQuestionNumber={this.state.currentQuestionNumber}
               onTimerExpire={this.onTimerExpire}
-              onSubmitAnswer={this.onAnswerSubmit}
               permittedTime={10}
+              onTestComplete={this.onTestComplete}
             />}
         {this.state.step === 'results' && <TestResults results={this.state.answers} />}
       </Container>
