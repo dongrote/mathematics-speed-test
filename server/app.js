@@ -1,12 +1,14 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+'use strict';
+const _ = require('lodash'),
+  express = require('express'),
+  HttpError = require('http-error-constructor'),
+  path = require('path'),
+  cookieParser = require('cookie-parser'),
+  logger = require('morgan'),
+  log = require('debug-logger')('app');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var app = express();
+const indexRouter = require('./routes/index'),
+  app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -15,6 +17,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+app.use((req, res, next) => next(new HttpError(404)));
+app.use((err, req, res, next) => {
+  const status = _.get(err, 'statusCode', 500);
+  log.error(err);
+  res.status(status).json({err});
+});
 
 module.exports = app;
