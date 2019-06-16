@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { Grid, Card, Rating } from 'semantic-ui-react';
 import TestResultCard from './TestResultCard';
@@ -8,7 +9,7 @@ const TestResults = ({results, duration}) => {
   return (
     <Grid centered>
       <Grid.Row>
-        {numberCorrect} out of {results.length} correct. ({percentCorrect * 100}%)  Time: {duration.get('minutes')}'{duration.get('seconds')}"
+        {numberCorrect} out of {results.length} correct. ({percentCorrect * 100}%)  Time: {duration.get('minutes')}'{_.padStart(duration.get('seconds'), 2, '0')}"
       </Grid.Row>
       <Grid.Row>
         <Rating disabled maxRating={10} defaultRating={10 * percentCorrect}></Rating>

@@ -29,6 +29,10 @@ class SpeedTest extends Component {
 
   onSubmitAnswer = (question, answer) => {
     let display;
+    if (this.state.display !== 'test') {
+      // may have gotten here via expired setTimeout; ignore it
+      return;
+    }
     const updatedAnswers = this.state.answers.slice(),
       nextQuestionNumber = this.state.currentQuestionNumber + 1,
       correct = Number(question.correctAnswer) === Number(answer),

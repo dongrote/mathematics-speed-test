@@ -18,7 +18,7 @@ class Timer extends Component {
   }
 
   render() {
-    return <Progress indicating value={this.state.remainingTime} total={this.props.permittedTime} />
+    return <Progress indicating size='tiny' value={this.state.remainingTime} total={this.props.permittedTime} />
   }
 }
 
