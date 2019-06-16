@@ -7,32 +7,23 @@ import SetupTest from './SetupTest';
 import TestResults from './TestResults';
 
 class App extends Component {
-  state = {
-    step: 'setup',
-    started: false,
-    numbers: [
-      {value: 0, selected: false},
-      {value: 1, selected: false},
-      {value: 2, selected: false},
-      {value: 3, selected: false},
-      {value: 4, selected: false},
-      {value: 5, selected: false},
-      {value: 6, selected: false},
-      {value: 7, selected: false},
-      {value: 8, selected: false},
-      {value: 9, selected: false},
-      {value: 10, selected: false},
-      {value: 11, selected: false},
-      {value: 12, selected: false},
-    ],
-    answers: null,
-    operation: '×',
-    score: null,
-    totalQuestionCount: null,
-    currentQuestionNumber: null,
-    startTime: null,
-    finishTime: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      step: 'setup',
+      started: false,
+      numbers: [],
+      answers: null,
+      operation: '×',
+      score: null,
+      currentQuestionNumber: null,
+      startTime: null,
+      finishTime: null,
+    };
+    for(let value=0; value<13; value++) {
+      this.state.numbers.push({value, selected: false});
+    }
+  }
 
   onSetupTest = () => {
     this.setState({
@@ -45,7 +36,6 @@ class App extends Component {
     this.setState({
       step: 'test',
       started: true,
-      totalQuestionCount: 10,
       currentQuestionNumber: 1,
       score: 0,
       answers: [],
@@ -84,7 +74,6 @@ class App extends Component {
         {this.state.step === 'test' && <SpeedTest
               testNumbers={this.state.numbers.filter(n => n.selected).map(n => n.value)}
               testOperation={this.state.operation}
-              totalQuestionCount={this.state.totalQuestionCount}
               currentQuestionNumber={this.state.currentQuestionNumber}
               onTimerExpire={this.onTimerExpire}
               permittedTime={10}
