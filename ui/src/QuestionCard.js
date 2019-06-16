@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, Card, Form } from 'semantic-ui-react';
+import { Header, Card, Form, Progress } from 'semantic-ui-react';
 import NumberInput from './NumberInput';
 import Timer from './Timer';
 
@@ -14,7 +14,7 @@ const QuestionCard = ({question, onSubmitAnswer, currentQuestionNumber, totalQue
       </Form>
     </Card.Content>
     <Card.Content extra>
-      {currentQuestionNumber} / {totalQuestionCount}
+      <Progress value={currentQuestionNumber} total={totalQuestionCount} progress='ratio' size='small' color='blue' />
     </Card.Content>
   </Card>
 );
