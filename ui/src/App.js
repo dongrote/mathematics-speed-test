@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { Container } from 'semantic-ui-react';
 import moment from 'moment';
@@ -51,7 +52,8 @@ class App extends Component {
     this.setState({numbers: updatedNumbers});
   }
 
-  onSelectAllNumbers = () => this.setState({numbers: this.state.numbers.map(number => ({value: number.value, selected: true}))})
+  onSelectAllNumbers = () => this.setState({numbers: this.state.numbers.map(({value}) => ({value, selected: true}))})
+  onSelectNoNumbers = () => this.setState({numbers: this.state.numbers.map(({value}) => ({value, selected: false}))})
 
   onTestComplete = results => {
     this.setState({
@@ -64,9 +66,10 @@ class App extends Component {
   render() {
     return (
       <Container textAlign='center'>
-        <AppHeader step={this.state.step} takeTestDisabled={this.state.numbers.filter(n => n.selected).length < 2} onSetupTest={this.onSetupTest} onTakeTest={this.onStartTest} />
+        <AppHeader step={this.state.step} takeTestDisabled={_.size(this.state.numbers.filter(n => n.selected)) < 1} onSetupTest={this.onSetupTest} onTakeTest={this.onStartTest} />
         {this.state.step === 'setup' && <SetupTest
               onStartClick={this.onStartTest}
+              onSelectNoneClick={this.onSelectNoNumbers}
               onSelectAllClick={this.onSelectAllNumbers}
               onNumberClick={this.onNumberToggle}
               numbers={this.state.numbers}
