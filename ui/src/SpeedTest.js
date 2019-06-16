@@ -52,7 +52,7 @@ class SpeedTest extends Component {
       answers: updatedAnswers,
       currentQuestionNumber: nextQuestionNumber,
     });
-    setTimeout(() => this.setState({display: 'test'}), display === 'incorrect' ? 3000 : 500);
+    setTimeout(() => this.setState({display: 'test'}), display === 'correct' ? 500 : 3000);
   }
 
   render() {
@@ -63,10 +63,12 @@ class SpeedTest extends Component {
       return (
         <Grid centered>
           <Grid.Row>
-            <Header as='h1'>Time's Up!</Header>
+            <Header size='huge'>Time's Up!</Header>
           </Grid.Row>
           <Grid.Row>
-            The correct answer is {_.last(this.state.answers).question.correctAnswer}
+            <Header size='medium'>
+              {_.last(this.state.answers).question.left} {_.last(this.state.answers).question.operation} {_.last(this.state.answers).question.right} = {_.last(this.state.answers).question.correctAnswer}
+            </Header>
           </Grid.Row>
         </Grid>
       );
@@ -75,7 +77,7 @@ class SpeedTest extends Component {
       return (
         <Grid centered>
           <Grid.Row>
-            <Header as='h1'>Correct!</Header>
+            <Header size='huge'>Correct!</Header>
           </Grid.Row>
         </Grid>
       );
@@ -84,10 +86,12 @@ class SpeedTest extends Component {
       return (
         <Grid centered>
           <Grid.Row>
-            <Header as='h1'>Incorrect!</Header>
+            <Header size='huge'>Incorrect!</Header>
           </Grid.Row>
           <Grid.Row>
-            The correct answer is {_.last(this.state.answers).question.correctAnswer}
+            <Header size='medium'>
+              {_.last(this.state.answers).question.left} {_.last(this.state.answers).question.operation} {_.last(this.state.answers).question.right} = {_.last(this.state.answers).question.correctAnswer}
+            </Header>
           </Grid.Row>
         </Grid>
       );
