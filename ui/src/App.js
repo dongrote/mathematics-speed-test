@@ -45,7 +45,7 @@ class App extends Component {
     this.setState({
       step: 'test',
       started: true,
-      totalQuestionCount: 20,
+      totalQuestionCount: 10,
       currentQuestionNumber: 1,
       score: 0,
       answers: [],

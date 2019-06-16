@@ -58,12 +58,11 @@ class SpeedTest extends Component {
   render() {
     const {totalQuestionCount} = this.props;
     const {question, display, currentQuestionNumber} = this.state;
-    console.log('display', display);
-    if (display === 'time-out') {
+    if (display === 'time-out' || display === 'incorrect') {
       return (
         <Grid centered>
           <Grid.Row>
-            <Header size='huge'>Time's Up!</Header>
+            <Header size='huge'>{display === 'time-out' ? `Time's Up!` : `Incorrect!`}</Header>
           </Grid.Row>
           <Grid.Row>
             <Header size='medium'>
@@ -78,20 +77,6 @@ class SpeedTest extends Component {
         <Grid centered>
           <Grid.Row>
             <Header size='huge'>Correct!</Header>
-          </Grid.Row>
-        </Grid>
-      );
-    }
-    if (display === 'incorrect') {
-      return (
-        <Grid centered>
-          <Grid.Row>
-            <Header size='huge'>Incorrect!</Header>
-          </Grid.Row>
-          <Grid.Row>
-            <Header size='medium'>
-              {_.last(this.state.answers).question.left} {_.last(this.state.answers).question.operation} {_.last(this.state.answers).question.right} = {_.last(this.state.answers).question.correctAnswer}
-            </Header>
           </Grid.Row>
         </Grid>
       );
