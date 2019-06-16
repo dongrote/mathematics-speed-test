@@ -8,7 +8,7 @@ const SetupTest = ({onNumberClick, onSelectAllClick, onStartClick, numbers}) => 
       </Grid.Row>
       <Grid.Row centered>
         <Button onClick={onSelectAllClick}>Select All</Button>
-        <Button disabled={numbers.filter(n => n.selected).length < 2} onClick={onStartClick}>Start</Button>
+        <Button disabled={numbers.filter(n => n.selected).length < 1} onClick={onStartClick}>Start</Button>
       </Grid.Row>
     </Grid>
 );

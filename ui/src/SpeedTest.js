@@ -3,27 +3,28 @@ import React, { Component } from 'react';
 import { Header, Grid } from 'semantic-ui-react';
 import QuestionCard from './QuestionCard';
 
-const generateQuestion = (numbers, operation) => {
-  const q = {
-    left: _.sample(numbers),
-    right: _.sample(numbers),
-    operation: operation === '*' ? '×' : '÷',
-  };
-  q.correctAnswer = operation === '*'
-    ? q.left * q.right
-    : q.left / q.right;
-  return q;
+const generateQuestions = (numbers, operation) => {
+  const questions = [];
+  _.each(numbers, left => {
+    for(let right = 0; right < 13; right++) {
+      const correctAnswer = operation === '×' ? left * right : left / right;
+      questions.push({left, right, operation, correctAnswer});
+    }
+  });
+  return questions;
 };
 
 class SpeedTest extends Component {
   constructor(props) {
     super(props);
+    const questions = _.shuffle(generateQuestions(props.testNumbers, props.testOperation));
     this.state = {
       display: 'test',
       remainingTime: props.permittedTime,
       answers: [],
       currentQuestionNumber: 1,
-      question: generateQuestion(props.testNumbers.filter(n => n.selected).map(n => n.value), props.testOperation),
+      questions,
+      question: _.first(questions),
     };
   }
 
@@ -35,15 +36,15 @@ class SpeedTest extends Component {
     }
     const updatedAnswers = this.state.answers.slice(),
       nextQuestionNumber = this.state.currentQuestionNumber + 1,
-      correct = Number(question.correctAnswer) === Number(answer),
-      nextQuestion = generateQuestion(this.props.testNumbers.filter(n => n.selected).map(n => n.value), this.props.testOperation);
+      correct = answer === null ? false : Number(question.correctAnswer) === Number(answer),
+      nextQuestion = this.state.questions[this.state.currentQuestionNumber];
     if (answer === null) {
       display = 'time-out';
     } else {
       display = correct ? 'correct' : 'incorrect';
     }
     updatedAnswers.push({question, answer, correct});
-    if (nextQuestionNumber > this.props.totalQuestionCount) {
+    if (nextQuestionNumber > this.state.questions.length) {
       return this.props.onTestComplete(updatedAnswers);
     }
     this.setState({
@@ -56,7 +57,6 @@ class SpeedTest extends Component {
   }
 
   render() {
-    const {totalQuestionCount} = this.props;
     const {question, display, currentQuestionNumber} = this.state;
     if (display === 'time-out' || display === 'incorrect') {
       return (
@@ -87,7 +87,7 @@ class SpeedTest extends Component {
           question={question}
           onSubmitAnswer={this.onSubmitAnswer}
           currentQuestionNumber={currentQuestionNumber}
-          totalQuestionCount={totalQuestionCount}
+          totalQuestionCount={this.state.questions.length}
         />
       </Grid>
     );

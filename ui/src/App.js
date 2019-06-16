@@ -26,7 +26,7 @@ class App extends Component {
       {value: 12, selected: false},
     ],
     answers: null,
-    operation: '*',
+    operation: '×',
     score: null,
     totalQuestionCount: null,
     currentQuestionNumber: null,
@@ -82,7 +82,7 @@ class App extends Component {
               numbers={this.state.numbers}
             />}
         {this.state.step === 'test' && <SpeedTest
-              testNumbers={this.state.numbers}
+              testNumbers={this.state.numbers.filter(n => n.selected).map(n => n.value)}
               testOperation={this.state.operation}
               totalQuestionCount={this.state.totalQuestionCount}
               currentQuestionNumber={this.state.currentQuestionNumber}
