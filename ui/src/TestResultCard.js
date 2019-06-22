@@ -3,17 +3,17 @@ import React from 'react';
 import { Icon, Card } from 'semantic-ui-react';
 
 const TestResultCard = ({children}) => {
-  const {question, answer, correct} = children;
+  const {question, correct, correctAnswer, submittedAnswer} = children;
   return (
     <Card>
       <Card.Content>
         <Card.Description>
           <Icon color={correct ? 'green' : 'red'} name={correct ? 'check circle' : 'close'} />
-          {question.left}{question.operation}{question.right} = {answer === null ? '--' : answer}
+          {question} {submittedAnswer ? submittedAnswer : '--'}
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
-        {correct ? 'Correct!' : `${answer === null ? 'Not answered' : 'Incorrect'}; expected ${question.correctAnswer}.`}
+        {correct ? 'Correct!' : `${submittedAnswer ? 'Incorrect' : 'Not answered' }; expected ${correctAnswer}.`}
       </Card.Content>
     </Card>
   );

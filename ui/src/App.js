@@ -14,8 +14,14 @@ class App extends Component {
       step: 'setup',
       started: false,
       numbers: [],
+      operations: [
+        {value: 'Addition', selected: false},
+        {value: 'Subtraction', selected: false},
+        {value: 'Multiplication', selected: false},
+        {value: 'Division', selected: false},
+      ],
       answers: null,
-      operation: '×',
+      operation: null,
       score: null,
       currentQuestionNumber: null,
       startTime: null,
@@ -52,6 +58,22 @@ class App extends Component {
     this.setState({numbers: updatedNumbers});
   }
 
+  onOperationToggle = event => {
+    const toggledOperation = event.target.innerHTML,
+      updatedOperations = this.state.operations.map(operation => {
+        return {value: operation.value, selected: toggledOperation === operation.value};
+      });
+    this.setState({
+      operations: updatedOperations,
+      operation: {
+        Addition: '+',
+        Subtraction: '-',
+        Multiplication: '*',
+        Division: '/',
+      }[toggledOperation],
+    });
+  }
+
   onSelectAllNumbers = () => this.setState({numbers: this.state.numbers.map(({value}) => ({value, selected: true}))})
   onSelectNoNumbers = () => this.setState({numbers: this.state.numbers.map(({value}) => ({value, selected: false}))})
 
@@ -66,13 +88,15 @@ class App extends Component {
   render() {
     return (
       <Container textAlign='center'>
-        <AppHeader step={this.state.step} takeTestDisabled={_.size(this.state.numbers.filter(n => n.selected)) < 1} onSetupTest={this.onSetupTest} onTakeTest={this.onStartTest} />
+        <AppHeader step={this.state.step} takeTestDisabled={!(_.some(this.state.numbers, n => n.selected) && _.some(this.state.operations, o => o.selected))} onSetupTest={this.onSetupTest} onTakeTest={this.onStartTest} />
         {this.state.step === 'setup' && <SetupTest
               onStartClick={this.onStartTest}
               onSelectNoneClick={this.onSelectNoNumbers}
               onSelectAllClick={this.onSelectAllNumbers}
               onNumberClick={this.onNumberToggle}
+              onOperationClick={this.onOperationToggle}
               numbers={this.state.numbers}
+              operations={this.state.operations}
             />}
         {this.state.step === 'test' && <SpeedTest
               testNumbers={this.state.numbers.filter(n => n.selected).map(n => n.value)}

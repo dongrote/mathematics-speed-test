@@ -23,7 +23,7 @@ const AppHeader = ({step, takeTestDisabled, onSetupTest, onTakeTest}) => (
             <Icon name='list' />
             <Step.Content>
               <Step.Title>Take Test</Step.Title>
-              <Step.Description>Answer randomly generated test questions.</Step.Description>
+              <Step.Description>Answer generated test questions.</Step.Description>
             </Step.Content>
           </Step>
           <Step disabled={step !== 'results'} active={step === 'results'}>
