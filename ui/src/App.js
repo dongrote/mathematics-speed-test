@@ -27,7 +27,7 @@ class App extends Component {
       startTime: null,
       finishTime: null,
     };
-    for(let value=0; value<13; value++) {
+    for(let value=1; value<13; value++) {
       this.state.numbers.push({value, selected: false});
     }
   }

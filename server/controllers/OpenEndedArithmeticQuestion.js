@@ -19,21 +19,21 @@ const operationMethods = {
 const termGenerators = {
   '+': (n, m) => {
     const terms = [];
-    for (let i=0; i<=m; i++) {
+    for (let i=1; i<=m; i++) {
       terms.push({left: n, right: i});
     }
     return terms;
   },
   '-': (n, m) => {
     const terms = [];
-    for (let i=0; i<=m; i++) {
+    for (let i=1; i<=m; i++) {
       terms.push({left: n + i, right: n});
     }
     return terms;
   },
   '*': (n, m) => {
     const terms = [];
-    for (let i=0; i<=m; i++) {
+    for (let i=1; i<=m; i++) {
       terms.push({left: n, right: i});
     }
     return terms;
